@@ -1,0 +1,134 @@
+<!-- Pierre-André Le Ny - http://www.lenyconseil.fr -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>MHL – Time Machine</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width"/>
+    <meta name="mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="theme-color" content="#000000"/>
+    <meta name="description" content=""/>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" />
+    <link rel="stylesheet" href="assets/css/leaflet.loader.css" />
+    <link rel="stylesheet" href="assets/css/MarkerCluster.css" />
+    <link rel="stylesheet" href="assets/css/MarkerCluster.Default.css" />
+    <link rel="stylesheet" href="assets/css/icono.css"/>
+
+    
+    <link rel="icon" sizes="196x196" href="assets/img/favicon-backthen-196.png"/>
+    <link rel="icon" type="image/x-icon" href="assets/img/favicon-backthen.ico"/>
+
+    <script src="https://kit.fontawesome.com/3a1bf36dfe.js" crossorigin="anonymous"></script>  
+  </head>
+  <body>
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <div class="navbar-icon-container">
+            <a href="#" class="navbar-icon pull-right visible-xs" id="nav-btn"><i class="fa fa-bars fa-lg white"></i></a>
+          </div>
+          <a class="navbar-brand" href="#"><img src="assets/img/time_machine_eu_logo.svg" alt="JadisLogo"/></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-left">
+            <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="about-btn"><i class="fa fa-question-circle white"></i>&nbsp;&nbsp;Projet</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li>
+             <p>
+              <div class="slidecontainer">
+                <input type="range" style="width:300px;" min="174" max="201" value="190" class="slider" id="selectYear" onchange="updateMap()">
+              </div>
+             </p>
+           </li>
+           <li>
+            <p class="navbar-text">    <b><span id="slider_year"></span>0s</b>       </p>
+           </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div id="container">
+      <div id="map"></div>
+    </div>
+    <div class="modal fade" id="aboutModal" tabindex="-1" role="dialog">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button class="close" type="button" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title">À propos du projet Icono Lausanne</h4>
+          </div>
+          <div class="modal-body">
+            <p>
+              Le projet Icono Lausanne est issu d'une collaboration scientifique entre le <a href="https://www.lausanne.ch/vie-pratique/culture/musees/mhl.html" target="_blank">Musée Historique Lausanne (MHL)</a> et le projet <a href="https://www.epfl.ch/schools/cdh/lausanne-time-machine/" target="_blank">Lausanne Time Machine</a> de l'Ecole Polytechnique Fédérale de Lausanne (EPFL) et de l'Université de Lausanne (Unil).
+            </p>
+            <p>
+              Le projet a pour but de valoriser les collections iconographiques lausannoises, disponibles en libre-accès sur la base de données patrimoniales <a href="https://museris.lausanne.ch/" target="_blank">Museris</a>. Plus de 38'600 documents ont déjà été numérisés sur un total de 62'500. Majoritairement constituées de photographies et d'estampes, ces sources historiques dépeignent le paysage urbain de Lausanne, les bâtiments, les activités de loisirs et divers événements et manifestations, à partir du 18e siècle. Le principal défi réside dans le géocodage automatique de ces images, en s'appuyant d'une part sur les adresses indiquées lors du catalogage ou sur les autres métadonnées toponymiques contenues dans la fiche. Dans la version actuelle, le géocodage se base sur les adresses contemporaines référencées dans OpenStreetMap Nominatim. Toutefois, le but à terme est d'améliorer la récupération et la localisation des toponymes en développant des référentiels géographiques historiques.
+            </p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+    <div class="modal fade" id="featureModal" tabindex="-1" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button class="close" type="button" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title text-primary" id="feature-title"></h4>
+          </div>
+          <div class="modal-body" id="feature-info"></div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <div class="modal fade" id="attributionModal" tabindex="-1" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button class="close" type="button" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title">
+              <p>
+                <b>Attribution</b>
+              </p>
+              <p>
+                Icono Lausanne, 2022.
+              </p>
+              <p>
+                Un projet de la <a href="https://www.epfl.ch/schools/cdh/lausanne-time-machine/">Lausanne Time Machine</a> et du <a href="https://www.lausanne.ch/vie-pratique/culture/musees/mhl.html">Musée Historique Lausanne</a>.
+              <p>
+                Fond de carte : contributeurs d'<a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> et <a href="https://carto.com/attributions">CARTO</a>. 
+              </p>
+            </h4>
+          </div>
+          <div class="modal-body">
+            <div id="attribution"></div>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal --> 
+
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="assets/js/jquery.csv.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet-src.js"></script>
+    <script src="assets/js/leaflet-tilelayer-wmts.js"></script>
+    <script src="assets/js/Control.FullScreen.js"></script>
+    <script src="assets/js/proj4.js"></script>
+    <script src="assets/js/proj4leaflet.js"></script>
+    <script src="assets/js/Leaflet-WFST.src.js"></script>
+    <script src="assets/js/leaflet.markercluster-src.js"></script>
+    <script src="assets/js/leaflet.markercluster.js"></script>
+    <script src="assets/js/icono.js"></script>
+  </body>
+</html>
