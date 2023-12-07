@@ -77,7 +77,7 @@ function updateMap(selectedStartYear=1740, selectedEndYear=2010, imageIdParam=nu
         	jsonObject.forEach(function(item) {
         		let id = item.image_url.split(';id=')[1];
 		        if (id === imageIdParam) {
-		            map.setView([item.lat, item.lon], 17); // Center and zoom
+		            map.setView([item.lat, item.lon], 18); // Center and zoom
 					selectedStartYear = Math.max(1740, item.start_year - 5);
 					selectedEndYear = Math.min(2010, item.end_year + 5);
 		            slider.noUiSlider.set([selectedStartYear, selectedEndYear]); // Adjust the slider
