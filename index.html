@@ -1,4 +1,3 @@
-<!-- Pierre-André Le Ny - http://www.lenyconseil.fr -->
 <!DOCTYPE html>
 <html>
   <head>
@@ -11,6 +10,7 @@
     <meta name="theme-color" content="#000000"/>
     <meta name="description" content=""/>
 
+    <link href="https://cdn.jsdelivr.net/npm/nouislider@14.7.0/distribute/nouislider.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" />
     <link rel="stylesheet" href="assets/css/leaflet.loader.css" />
@@ -18,11 +18,9 @@
     <link rel="stylesheet" href="assets/css/MarkerCluster.Default.css" />
     <link rel="stylesheet" href="assets/css/icono.css"/>
 
-    
-    <link rel="icon" sizes="196x196" href="assets/img/favicon-backthen-196.png"/>
-    <link rel="icon" type="image/x-icon" href="assets/img/favicon-backthen.ico"/>
+    <script src="https://cdn.jsdelivr.net/npm/nouislider@14.7.0/distribute/nouislider.min.js"></script>
+    <script src="https://kit.fontawesome.com/3a1bf36dfe.js" crossorigin="anonymous"></script>
 
-    <script src="https://kit.fontawesome.com/3a1bf36dfe.js" crossorigin="anonymous"></script>  
   </head>
   <body>
     <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -31,7 +29,7 @@
           <div class="navbar-icon-container">
             <a href="#" class="navbar-icon pull-right visible-xs" id="nav-btn"><i class="fa fa-bars fa-lg white"></i></a>
           </div>
-          <a class="navbar-brand" href="#"><img src="assets/img/time_machine_eu_logo.svg" alt="JadisLogo"/></a>
+          <a class="navbar-brand" href="#"><img src="assets/img/time_machine_eu_logo.svg" alt="TimeMachineLogo"/></a>
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-left">
@@ -40,13 +38,11 @@
           <ul class="nav navbar-nav navbar-right">
             <li>
              <p>
-              <div class="slidecontainer">
-                <input type="range" style="width:300px;" min="174" max="201" value="190" class="slider" id="selectYear" onchange="updateMap()">
-              </div>
+              <div id="yearRange" class="slidecontainer"></div>
              </p>
            </li>
            <li>
-            <p class="navbar-text">    <b><span id="slider_year"></span>0s</b>       </p>
+            <p class="navbar-text">    <b><span id="slider_year">1830 – 1870</span></b>       </p>
            </li>
           </ul>
         </div>
@@ -65,7 +61,7 @@
           </div>
           <div class="modal-body">
             <p>
-              Le projet Icono Lausanne est issu d'une collaboration scientifique entre le <a href="https://www.lausanne.ch/vie-pratique/culture/musees/mhl.html" target="_blank">Musée Historique Lausanne (MHL)</a> et le projet <a href="https://www.epfl.ch/schools/cdh/lausanne-time-machine/" target="_blank">Lausanne Time Machine</a> de l'Ecole Polytechnique Fédérale de Lausanne (EPFL) et de l'Université de Lausanne (Unil).
+              Le projet Icono Lausanne est issu d'une collaboration scientifique entre le <a href="https://www.lausanne.ch/vie-pratique/culture/musees/mhl.html" target="_blank">Musée Historique Lausanne (MHL)</a> et le projet <a href="https://www.epfl.ch/schools/cdh/lausanne-time-machine/" target="_blank">Lausanne Time Machine</a>, porté par l'Ecole Polytechnique Fédérale de Lausanne (EPFL) et l'Université de Lausanne (Unil).
             </p>
             <p>
               Le projet a pour but de valoriser les collections iconographiques lausannoises, disponibles en libre-accès sur la base de données patrimoniales <a href="https://museris.lausanne.ch/" target="_blank">Museris</a>. Plus de 38'600 documents ont déjà été numérisés sur un total de 62'500. Majoritairement constituées de photographies et d'estampes, ces sources historiques dépeignent le paysage urbain de Lausanne, les bâtiments, les activités de loisirs et divers événements et manifestations, à partir du 18e siècle. Le principal défi réside dans le géocodage automatique de ces images, en s'appuyant d'une part sur les adresses indiquées lors du catalogage ou sur les autres métadonnées toponymiques contenues dans la fiche. Dans la version actuelle, le géocodage se base sur les adresses contemporaines référencées dans OpenStreetMap Nominatim. Toutefois, le but à terme est d'améliorer la récupération et la localisation des toponymes en développant des référentiels géographiques historiques.
@@ -124,9 +120,11 @@
     <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet-src.js"></script>
     <script src="assets/js/leaflet-tilelayer-wmts.js"></script>
     <script src="assets/js/Control.FullScreen.js"></script>
+    <script src="assets/leaflet-groupedlayercontrol/leaflet.groupedlayercontrol.js"></script>
     <script src="assets/js/proj4.js"></script>
     <script src="assets/js/proj4leaflet.js"></script>
     <script src="assets/js/Leaflet-WFST.src.js"></script>
+    <script src="assets/js/leaflet.loader.js"></script>
     <script src="assets/js/leaflet.markercluster-src.js"></script>
     <script src="assets/js/leaflet.markercluster.js"></script>
     <script src="assets/js/icono.js"></script>
