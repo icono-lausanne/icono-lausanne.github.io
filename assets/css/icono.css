@@ -31,9 +31,6 @@ input[type="radio"], input[type="checkbox"] {
 .leaflet-control-layers-list input[type="radio"], input[type="checkbox"] {
   margin: 2px;
 }
-.leaflet-popup-content {
-width:auto !important;
-}
 #aboutTabsContent {
   padding-top: 10px;
 }
@@ -139,6 +136,10 @@ select:focus{
   animation: spin 2s linear infinite;
 }
 
+.slidecontainer {
+    width: 300px;
+}
+
 /* The slider itself */
 .slider {
   -webkit-appearance: none;
@@ -150,6 +151,33 @@ select:focus{
   outline: #000000; /* Remove outline */
   opacity: 1.0;
   cursor: pointer; /* Set transparency (for mouse-over effects on hover) */
+}
+
+/* Base for the slider */
+.noUi-target {
+    background-color: #333;
+    height: 8px;
+    border-radius: 4px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    position: relative;
+    margin-top: 21px;
+}
+
+.noUi-handle {
+width: 10px;
+height: 10px;
+border: none;
+border-radius: 50%;
+background-color: #e6e6e6;
+box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+cursor: pointer;
+top: 50%;
+transform: translateY(-20%) scale(70%) scaleX(85%);
+}
+
+.noUi-connect {
+background-color: #982E40;
+height: 100%;
 }
 
 @keyframes spin {
